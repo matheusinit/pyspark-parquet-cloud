@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pyspark-parquet"
+version = "0.1.0"
+description = ""
+authors = ["Matheus Oliveira <matheus.oliveira.s@protonmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyspark = "^3.5.4"
+kagglehub = "^0.3.6"
+ipykernel = "^6.29.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
