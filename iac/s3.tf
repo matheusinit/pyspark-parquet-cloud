@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "amazon_sales" {
-  bucket = "amazon-sales"
+  bucket        = "amazon-sales"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_policy" "amazon_sales_policy_for_iam_user" {
