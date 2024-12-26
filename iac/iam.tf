@@ -4,6 +4,10 @@ resource "aws_iam_user" "amazon_sales_iam_user" {
 
 resource "aws_iam_access_key" "amazon_sales_iam_access_key" {
   user = aws_iam_user.amazon_sales_iam_user.name
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role" "amazon_sales_iam_role" {
@@ -27,6 +31,8 @@ resource "aws_iam_role" "amazon_sales_iam_role" {
       }
     ]
   })
+
+  depends_on = [aws_iam_access_key.amazon_sales_iam_access_key]
 }
 
 resource "aws_iam_user_policy" "assume_role_policy" {
