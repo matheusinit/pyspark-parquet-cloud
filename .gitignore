@@ -177,3 +177,6 @@ terraform.rc
 
 # Ignore Private Key files
 *.pem
+
+# Datasets
+./data/*
