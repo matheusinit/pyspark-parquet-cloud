@@ -6,9 +6,11 @@ resource "aws_emr_cluster" "amazon_sales_spark_cluster" {
   service_role = aws_iam_role.iam_emr_service_role.arn
 
   ec2_attributes {
-    instance_profile = aws_iam_instance_profile.amazon_sales_instance_profile.arn
-    subnet_id        = aws_subnet.amazon_sales_subnet_public1_us_west_2a.id
-    key_name         = aws_key_pair.emr_key_pair.key_name
+    instance_profile                  = aws_iam_instance_profile.amazon_sales_instance_profile.arn
+    subnet_id                         = aws_subnet.amazon_sales_subnet_public1_us_west_2a.id
+    key_name                          = aws_key_pair.emr_key_pair.key_name
+    emr_managed_master_security_group = aws_security_group.emr_master_security_group.id
+    emr_managed_slave_security_group  = aws_security_group.emr_slave_security_group.id
   }
 
   master_instance_group {
