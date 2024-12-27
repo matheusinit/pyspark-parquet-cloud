@@ -49,3 +49,10 @@ resource "aws_s3_bucket_policy" "amazon_sales_policy_for_iam_role" {
     ]
   })
 }
+
+resource "aws_s3_object" "python_script" {
+  bucket                 = aws_s3_bucket.amazon_sales.id
+  key                    = "jobs/amazon_sales.py"
+  source                 = "../amazon_sales.py"
+  server_side_encryption = "AES256"
+}
