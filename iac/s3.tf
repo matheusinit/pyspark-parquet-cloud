@@ -14,7 +14,12 @@ resource "aws_s3_bucket_policy" "amazon_sales_policy_for_iam_user" {
         "Principal" : {
           "AWS" : aws_iam_user.amazon_sales_iam_user.arn
         },
-        "Action" : "s3:*",
+        "Action" : [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:GetObjectAcl",
+          "s3:PutObjectAcl"
+        ],
         "Resource" : [
           "${aws_s3_bucket.amazon_sales.arn}",
           "${aws_s3_bucket.amazon_sales.arn}/*"
