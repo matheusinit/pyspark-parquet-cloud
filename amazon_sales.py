@@ -7,11 +7,53 @@ from pyspark.sql import SparkSession
 import boto3
 
 
+def download_dataset_from_kaggle(dataset: str, path: str) -> None:
+    """
+    Downloads a dataset from Kaggle.
+
+    Args:
+        dataset (str): The handle of the Kaggle dataset to download.
+        path (str): The local directory path where the dataset should be downloaded.
+
+    Raises:
+        Exception: If any error occurs during the download process.
+
+    Returns:
+        None
+    """
+    try:
+        kagglehub.dataset_download(
+            handle=dataset,
+            path=path
+        )
+
+        print(f"Dataset {dataset} downloaded successfully.")
+    except Exception as e:
+        print(f"Error downloading dataset: {e}")
+
+
+def upload_file_to_s3(file_path: str, bucket_name: str, object_key: str) -> None:
+    """
+    Uploads a file to an S3 bucket.
+
+    Args:
+        file_path (str): The path to the local file.
+        bucket_name (str): The name of the S3 bucket.
+        object_key (str): The desired key (object name) for the file in the S3 bucket.
+
+    Returns:
+        None
+    """
+
+    try:
+        s3 = boto3.client('s3')
+        s3.upload_file(file_path, bucket_name, object_key)
+        print(f"File '{file_path}' uploaded to s3://{bucket_name}/{object_key}")
+    except Exception as e:
+        print(f"Error uploading file: {e}")
+
+
 def write_raw_data_in_bronze_layer() -> None:
-    repository = "thedevastator/unlock-profits-with-e-commerce-sales-data"
-
-    path = kagglehub.dataset_download(repository)
-
     hadoop_jar = "org.apache.hadoop:hadoop-aws:3.3.4"
     aws_jar = "com.amazonaws:aws-java-sdk-bundle:1.12.518"
 
@@ -51,7 +93,7 @@ def write_raw_data_in_bronze_layer() -> None:
     temp_secret_access_key = credentials['SecretAccessKey']
     temp_session_token = credentials['SessionToken']
 
-    hadoop_conf = spark._jsc.hadoopConfiguration()
+    hadoop_conf = spark.sparkContext._jsc.hadoopConfiguration()
     hadoop_conf.set('fs.s3a.access.key', temp_access_key_id)
     hadoop_conf.set('fs.s3a.secret.key', temp_secret_access_key)
     hadoop_conf.set('fs.s3a.session.token', temp_session_token)
@@ -69,4 +111,11 @@ def write_raw_data_in_bronze_layer() -> None:
 
 
 if __name__ == "__main__":
+    dataset = "thedevastator/unlock-profits-with-e-commerce-sales-data"
+    download_dataset_from_kaggle(dataset, path="data/")
+    upload_file_to_s3(
+        "data/Amazon Sale Report.csv",
+        bucket_name="amazon-sales",
+        object_key="dataset/amazon-sale-report.csv"
+    )
     write_raw_data_in_bronze_layer()
