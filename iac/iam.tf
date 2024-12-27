@@ -10,6 +10,15 @@ resource "aws_iam_access_key" "amazon_sales_iam_access_key" {
   }
 }
 
+output "access_key_id" {
+  value = aws_iam_access_key.amazon_sales_iam_access_key.id
+}
+
+output "secret_access_key" {
+  value     = aws_iam_access_key.amazon_sales_iam_access_key.secret
+  sensitive = true
+}
+
 resource "aws_iam_role" "amazon_sales_iam_role" {
   name = "amazon-sales-iam-role"
   assume_role_policy = jsonencode({
