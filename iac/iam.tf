@@ -59,3 +59,13 @@ resource "aws_iam_user_policy" "assume_role_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "amazon_sales_iam_role_policy_attachment" {
+  role       = aws_iam_role.amazon_sales_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+}
+
+resource "aws_iam_instance_profile" "amazon_sales_instance_profile" {
+  name = "amazon-sales-instance-profile"
+  role = aws_iam_role.amazon_sales_iam_role.name
+}
