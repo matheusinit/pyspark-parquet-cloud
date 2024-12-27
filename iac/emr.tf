@@ -1,7 +1,7 @@
 resource "aws_emr_cluster" "amazon_sales_spark_cluster" {
   name          = "amazon-sales-spark-cluster"
   release_label = "emr-7.5.0"
-  applications  = ["Spark", "Hadoop", "Livy"]
+  applications  = ["Spark", "Hadoop"]
 
   service_role = aws_iam_role.iam_emr_service_role.arn
 
