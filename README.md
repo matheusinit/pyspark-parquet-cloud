@@ -1,5 +1,7 @@
 # PySpark Parquet Project
 
+![Project Banner](.github/banner.webp)
+
 ## Goal
 
 The goal of this project is to demonstrate how to use PySpark to read, write, and process Parquet files in a distributed environment using AWS cloud services. This project follows the Medallion Architecture, utilizing CSV files as raw data and storing processed data in Parquet format on Amazon S3 across different layers (Bronze, Silver, and Gold). The project provides examples and best practices for handling Parquet files efficiently in a cloud-based setup.
