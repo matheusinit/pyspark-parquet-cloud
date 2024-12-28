@@ -41,6 +41,15 @@ resource "aws_security_group_rule" "inbound_rule_for_emr_master" {
   source_security_group_id = aws_security_group.emr_slave_security_group.id
 }
 
+resource "aws_security_group_rule" "inbound_rule_for_aws_services" {
+  type              = "ingress"
+  from_port         = 8443
+  to_port           = 8443
+  protocol          = "tcp"
+  prefix_list_ids   = ["pl-45a6432c"]
+  security_group_id = aws_security_group.emr_master_security_group.id
+}
+
 resource "aws_security_group_rule" "inbound_rule_for_emr_slave" {
   type                     = "ingress"
   from_port                = 0
