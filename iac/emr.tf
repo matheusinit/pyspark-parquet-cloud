@@ -56,6 +56,22 @@ resource "aws_emr_cluster" "amazon_sales_spark_cluster" {
     }
   ]
   EOF
+
+  step {
+    name              = "Amazon Sales Spark Job"
+    action_on_failure = "CANCEL_AND_WAIT"
+    hadoop_jar_step {
+      jar = "command-runner.jar"
+      args = [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "s3://amazon-sales/jobs/amazon_sales.py",
+        "--data_source_uri s3://amazon-sales/dataset/amazon-sale-report.csv",
+        "--output_uri s3://amazon-sales/output/"
+      ]
+    }
+  }
 }
 
 resource "aws_key_pair" "emr_key_pair" {
