@@ -24,6 +24,18 @@ resource "aws_emr_cluster" "amazon_sales_spark_cluster" {
     instance_count = 3
     name           = "Core Instance Group"
   }
+
+  configurations_json = <<EOF
+  [
+    {
+      "Classification": "yarn-site",
+      "Properties": {
+        "yarn.scheduler.maximum-allocation-mb": "4096",
+        "yarn.nodemanager.resource.memory-mb": "4096"
+      }
+    }
+  ]
+  EOF
 }
 
 resource "aws_key_pair" "emr_key_pair" {
