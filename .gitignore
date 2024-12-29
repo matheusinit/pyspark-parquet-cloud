@@ -179,4 +179,4 @@ terraform.rc
 *.pem
 
 # Datasets
-./data/*
+**/data/*
