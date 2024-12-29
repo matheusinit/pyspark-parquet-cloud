@@ -25,6 +25,8 @@ resource "aws_emr_cluster" "amazon_sales_spark_cluster" {
     name           = "Core Instance Group"
   }
 
+  log_uri = "s3://amazon-sales/logs/"
+
   configurations_json = <<EOF
   [
     {
@@ -32,6 +34,24 @@ resource "aws_emr_cluster" "amazon_sales_spark_cluster" {
       "Properties": {
         "yarn.scheduler.maximum-allocation-mb": "4096",
         "yarn.nodemanager.resource.memory-mb": "4096"
+      }
+    },
+    {
+      "Classification": "hadoop-env",
+      "Properties": {
+        "hadoop.log.dir": "/var/log/hadoop" 
+      }
+    },
+    {
+      "Classification": "spark-defaults",
+      "Properties": {
+        "spark.log.level": "INFO" 
+      }
+    },
+    {
+      "Classification": "hadoop-log4j",
+      "Properties": {
+        "hadoop.root.logger": "INFO, console, rollingFile" 
       }
     }
   ]
