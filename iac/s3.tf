@@ -56,3 +56,9 @@ resource "aws_s3_object" "python_script" {
   source                 = "../amazon_sales.py"
   server_side_encryption = "AES256"
 }
+
+resource "aws_s3_object" "dataset" {
+  bucket = aws_s3_bucket.amazon_sales.id
+  key    = "dataset/amazon-sale-report.csv"
+  source = "../data/Amazon Sale Report.csv"
+}
